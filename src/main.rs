@@ -1,3 +1,9 @@
+mod repl;
+mod meta_cmd;
+mod sql_cmd;
+
 fn main() {
-    println!("Hello, world!");
+    loop {
+        repl::read_input();
+    }
 }
