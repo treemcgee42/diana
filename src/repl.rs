@@ -5,14 +5,20 @@
  */
 
 use std::io::{self, Write};
-use crate::meta_cmd;
+use crate::data_structs::{
+    table::{Table},
+};
+use crate::command::{
+    statement,
+    meta,
+};
 
 enum CommandType {
     META,
     SQL,
 }
 
-pub fn read_input()
+pub fn read_input(table: &mut Table)
 {
     cursor();
 
@@ -20,7 +26,7 @@ pub fn read_input()
     match io::stdin().read_line(&mut line) {
         Ok(_) => {
             let to_parse = line.trim_end();
-            parse(to_parse);
+            parse(to_parse, table);
         }
         Err(err) => { eprint!("Error: {}", err); }
     }
@@ -30,13 +36,13 @@ pub fn read_input()
 /* Local functions */
 /*******************/
 
-fn parse(user_input: &str) -> ()
+fn parse(user_input: &str, table: &mut Table) -> ()
 {
     if user_input.len() == 0 { return; }
 
     match get_command_type(user_input) {
-        CommandType::META => { meta_cmd::parse(user_input); }
-        CommandType::SQL => { () }
+        CommandType::META => { meta::parse(user_input); }
+        CommandType::SQL => { statement::handle(user_input, table); }
     }
 }
 

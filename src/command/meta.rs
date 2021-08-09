@@ -5,6 +5,9 @@
  */
 
 use std::process;
+use crate::command::{
+    results::*,
+};
 
 enum Command {
     EXIT,
@@ -24,10 +27,18 @@ fn get_cmd_type(command: &str) -> Command
     }
 }
 
-fn cmd_handler(cmd: Command) 
+fn cmd_handler
+(
+    cmd: Command
+)
+-> MetaCommandResult
 {
     match cmd {
-        Command::EXIT => { process::exit(0); }
-        Command::UNKNOWN => { println!("I couldn't parse that command."); }
+        Command::EXIT => { 
+            process::exit(0); 
+        }
+        Command::UNKNOWN => { 
+            return MetaCommandResult::Unrecognized;
+        }
     }
 }
