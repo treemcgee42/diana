@@ -15,8 +15,7 @@ pub struct Row {
 }
 
 impl Row {
-    pub fn new() 
-    -> Row
+    pub fn new() -> Row
     {
         Row {
             id: 0,
@@ -25,13 +24,7 @@ impl Row {
         }
     }
 
-    pub fn 
-    create
-    <S: Into<String>>(
-        id: u32, 
-        username_: S, 
-        email_: S
-    ) -> Row
+    pub fn create <S: Into<String>>(id: u32, username_: S, email_: S) -> Row
     {
         let mut username = username_.into();
         let mut email = email_.into();
@@ -110,7 +103,7 @@ impl Serializable for Row {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::data_structs::{page::*};
+    use page::{Page};
 
     #[test]
     fn test_row_serialize_deserialize() 
@@ -119,20 +112,6 @@ mod tests {
 
         let row_ser: Vec<Option<u8>> = row.serialize();
         let row_de: Row = Row::deserialize(row_ser.as_slice());
-
-        assert_eq!(row.id, row_de.id);
-        assert_eq!(row.email, row_de.email);
-        assert_eq!(row.username, row_de.username);
-    }
-
-    #[test]
-    fn test_insert_extract_row_from_page() 
-    {
-        let row = Row::create(1, "cstack", "foo@bar.com");
-        let mut page = Page::new();
-
-        page.insert(row.serialize(), 0, ROW_SIZE);
-        let row_de = Row::deserialize(page.get_slice(0, ROW_SIZE));
 
         assert_eq!(row.id, row_de.id);
         assert_eq!(row.email, row_de.email);

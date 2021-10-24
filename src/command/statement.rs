@@ -101,7 +101,7 @@ fn execute_statement(statement: &Statement, table: &mut Table)
             return execute_select(statement, table);
         }
         _ => {
-            return println!("(none)");
+            return ExecuteResult::TableFull;
         }
     }
 }
